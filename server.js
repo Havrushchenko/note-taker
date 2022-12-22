@@ -1,12 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const router = express.Router();
 const PORT = process.env.PORT || 3001;
+
+// Use apiRoutes
+const apiRoutes = require('./routes/apiRoutes');
 
 // Creating an 'express' server
 const app = express();
 var notes = require('./db/db.json');
-
 // Imported 'uuid' npm package for unique id
 const { v4: uuidv4 } = require('uuid');
 
@@ -14,38 +17,13 @@ const { v4: uuidv4 } = require('uuid');
 app.use(express.urlencoded({ extended: true }));
 
 // Parse incoming JSON data
+app.use('/api', apiRoutes);
 app.use(express.json());
 app.use(express.static('public'));
 
-// GET return the index.html file
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, './public/index.html'))
-);
-
-// GET/api/notes read the db.json file and return all saved notes as JSON
-app.get('/api/notes', (req, res) =>
-  res.json(notes)
-);
-
-// GET/notes return the notes.html file
-app.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, './public/notes.html'))
-);
-
-// Receive a new note and add it to the db.json file, and then return the new note to the client
-app.post('/api/notes', (req, res) => {
-  // Extracted new note from request body
-  const newNote = req.body;
-  // Assigned unique id obtained from 'uuid' package
-  newNote.id = uuidv4();
-  // Read data from 'db.json' file
-  let data = JSON.parse(fs.readFileSync('./db/db.json', "utf8"));
-  // Pushed new note in notes file 'db.json'
-  data.push(newNote);
-  // Written notes data to 'db.json' file
-  fs.writeFileSync('./db/db.json', JSON.stringify(data));
-  // Send response
-  res.json(data);
+// Default response for any other request (Not Found)
+app.use((req, res) => {
+  res.status(404).end();
 });
 
 // Method binds itself with the specified host and port to bind and listen for any connections.
