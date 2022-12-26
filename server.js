@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 var notes = require('./db/db.json');
 // Imported 'uuid' npm package for unique id
-const uniqid = require('uniqid');
+const { v4: uuidv4 } = require('uuid');
 
 // Parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
