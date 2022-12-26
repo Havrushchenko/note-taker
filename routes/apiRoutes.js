@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const data = require('../db/db.json');
+const db = require('../db/db.json');
 const fs = require("fs");
 // Imported 'uuid' npm package for unique id
 const { v4: uuidv4 } = require('uuid');
