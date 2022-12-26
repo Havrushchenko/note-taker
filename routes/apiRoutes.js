@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // GET/api/notes read the db.json file and return all saved notes as JSON
 router.get('/notes', (req, res) =>
-    res.json(notes)
+    res.json(db)
 );
 
 // Receive a new note and add it to the db.json file, and then return the new note to the client
