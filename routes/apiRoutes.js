@@ -25,6 +25,20 @@ router.post('/notes', (req, res) => {
     res.json(data);
 });
 
+// Deletes a note
+router.delete("/:id", function (req, res) {
+    notes.splice(req.params.id - 1);
+    update();
+    console.log("Deleted note with id " + req.params.id);
+});
+
+function update() {
+    fs.writeFile("./db/db.json",JSON.stringify(notes,'\t'),err => {
+        if (err) throw err;
+        return true;
+    });
+}
+
 // Default response for any other request (Not Found)
 router.use((req, res) => {
     res.status(404).end();

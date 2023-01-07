@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Parse incoming JSON data
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.use('/api', apiRoutes);
 app.use('/', htmlRoutes);
